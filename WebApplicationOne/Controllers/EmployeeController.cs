@@ -35,16 +35,17 @@ namespace WebApplicationOne.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Employee employee)
+        public void Post([FromForm] Employee employee)
         {
             _context.Employee.Add(employee);
             _context.SaveChanges();
         }
 
         [HttpDelete]
+        //[Route("{id}")]
         public void Delete(int id)
         {
-            Employee emp = _context.Employee.First(x => x.Id==id);
+            Employee emp = _context.Employee.First(x => x.Id == id);
             _context.Employee.Remove(emp);
             _context.SaveChanges();
         }
