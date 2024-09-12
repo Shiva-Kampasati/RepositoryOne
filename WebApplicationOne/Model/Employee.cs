@@ -9,7 +9,7 @@ namespace WebApplicationOne.Model
         public string Name { get; set; }
         public string Code { get; set; }
         public string Location { get; set; }
-        public Role Role { get; set; }
+        public Role? Role { get; set; }
         public int RoleId { get; set; }
     }
 }
