@@ -3,23 +3,28 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplicationOne.Data;
 using WebApplicationOne.Model;
 using WebApplicationOne.Utils;
+using Microsoft.Extensions.Options;
 
 namespace WebApplicationOne.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
         private  AppDbContext _context;
         private ResponseDTO _responseDTO;
-        public EmployeeController(AppDbContext appDbContext)
+        private JwtOptions _jwtOptions;
+     
+        public EmployeeController(AppDbContext appDbContext,IOptions<JwtOptions> jwtOptions)
         {
             _context = appDbContext;
+            _jwtOptions = jwtOptions.Value;
         }
 
         [HttpGet]
         public ResponseDTO Get()
         {
+            var ss = _jwtOptions;
             _responseDTO = new ResponseDTO();
             _responseDTO.Result = _context.Employee.ToList();
             return _responseDTO;

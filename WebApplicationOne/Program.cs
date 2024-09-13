@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using WebApplicationOne.Authentication;
 using WebApplicationOne.Data;
+using WebApplicationOne.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<AppDbContext>();
+builder.Services.AddScoped<JwtOptions>();
+builder.Services.AddScoped<CustomAuthentication>();
 
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("sensitiveData"));
 
 // Add CORS policy to allow specific origin (React app)
 builder.Services.AddCors(options =>
@@ -45,6 +51,7 @@ app.MapControllers();
 
 app.Run();
 
+ApplyMigration();
 void ApplyMigration()
 {
     using (var scope = app.Services.CreateScope())
